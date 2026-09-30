@@ -1,0 +1,12 @@
+torch>=2.0
+torchvision>=0.15
+pytorch-lightning>=2.0
+torchmetrics>=1.0
+monai>=1.1,<2.0
+transformers>=4.30
+einops>=0.6
+numpy>=1.23
+pandas>=1.5
+Pillow>=9.0
+scipy>=1.9
+PyYAML>=6.0

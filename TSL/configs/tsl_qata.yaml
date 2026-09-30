@@ -1,0 +1,58 @@
+seed: 0
+
+TRAIN:
+  batch_size: 16
+  valid_batch_size: 8
+  num_workers: 4
+
+  # Main lr for FiLM + FPN CAM decoder.
+  lr: 0.0001
+  # ConvNeXt is pretrained and updated, but with a smaller lr.
+  vision_lr: 0.00001
+  weight_decay: 0.0001
+  max_epochs: 100
+  patience: 20
+  grad_clip: 1.0
+
+  image_size: [224, 224]
+  text_max_length: 64
+  text_pooling: mean
+  image_normalize: True
+
+  # Important setting requested:
+  # CXR-BERT: pretrained, frozen, not updated.
+  # ConvNeXt: pretrained, trainable, updated.
+  freeze_text: True
+  freeze_vision: False
+
+  # Code ratio 0.04 corresponds to the paper's 5% labeled-data setting.
+  cam_split: labeled
+  labeled_ratio: 0.04
+  valid_ratio: 0.2
+  val_ratio: 0.2
+  strict_cam: True
+
+  cam_bce_weight: 1.0
+  cam_mse_weight: 0.5
+  cam_dice_weight: 0.5
+
+  prompt_template: "Find the infected region in the chest X-ray according to the report: {report}"
+
+  save_dir: ./save_model
+  save_name: tsl_qata.ckpt
+  device: [0]
+
+MODEL:
+  bert_type: ./lib/BiomedVLP-CXR-BERT-specialized
+  vision_type: ./lib/convnext-tiny-224
+  cam_dim: 256
+  convnext_channels: [96, 192, 384, 768]
+
+DATA:
+  train_csv_path: ./data/QaTa-COV19/prompt/Train.csv
+  train_root_path: ./data/QaTa-COV19/Train Set
+  # Grad-CAM targets produced by the MDAA-adapted SAM expert.
+  train_cam_path: ./data/QaTa-COV19/Train Set/cam_labels/npy
+
+  test_csv_path: ./data/QaTa-COV19/prompt/Test.csv
+  test_root_path: ./data/QaTa-COV19/Test Set

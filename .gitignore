@@ -1,0 +1,32 @@
+# Python / IDE
+__pycache__/
+*.py[cod]
+.idea/
+.vscode/
+.pytest_cache/
+
+# Model artifacts and pretrained assets
+*.ckpt
+*.pth
+*.pt
+*.bin
+*.safetensors
+*.onnx
+/pretrained/
+/checkpoints/
+
+# Data, priors, runs and generated results
+/datasets/
+/priors/
+/outputs/
+/lightning_logs/
+/wandb/
+/runs/
+*.npy
+*.npz
+
+# Local environment
+.env
+*.log
+Thumbs.db
+.DS_Store

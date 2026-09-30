@@ -1,0 +1,89 @@
+TRAIN:
+  train_batch_size: 8
+  valid_batch_size: 8
+  image_size: [224, 224]
+  lr: 0.0001
+
+  pretrain: True
+  pretrained_ckpt_path: ''
+  labeled_ratio: 0.04
+  valid_ratio: 0.2
+
+  min_epochs: 20
+  max_epochs: 200
+  patience: 20
+  device: [0]
+
+  model_save_path: ./outputs/mosmed/pretrain
+  model_save_filename: cast_seg_pretrain
+  semi_save_path: ./outputs/mosmed/semi_supervised
+  semi_save_filename: cast_seg
+
+  pseudo_label_threshold: 0.5
+  pseudo_agree_threshold: 0.40
+  pseudo_conflict_threshold: 0.80
+  pseudo_conf_margin: 0.10
+
+  use_cam_prior: True
+  cam_prior_mode: residual
+  cam_prior_alpha: 0.9
+  cam_prior_min_value: 0
+  cam_prior_zero_eps: 0.0
+  strict_cam_prior: True
+  cam_bg_balance: False
+
+  use_sam_prior: True
+  strict_sam_prior: True
+  sam_pseudo_threshold: 0.5
+  sam_prior_min_value: 0.0
+  sam_prior_zero_eps: 0.0
+  sam_loss_on_all_pixels: True
+  sam_empty_mask_policy: use
+
+  unlabeled_loss_weight: 0.6
+  student_a_unsup_weight: 1.0
+  sam_unsup_weight: 1.0
+  student_b_labeled_weight: 1.0
+
+  ema_decay: 0.99
+  wema_student_a_weight: 0.75
+  eval_model: teacher
+
+  use_spatial_aug: True
+  spatial_aug_prob: 0.5
+  spatial_aug_hflip: True
+  spatial_aug_vflip: False
+  spatial_aug_rotate: True
+  spatial_aug_max_angle: 10.0
+
+  asr_enabled: True
+  asr_source: teacher
+  asr_warmup_epochs: 10
+  asr_update_interval: 10
+  asr_output_root: ./outputs/mosmed/asr_cam_priors
+  asr_target_layer: foreground_decoder.up2.nConvs
+  asr_batch_size: 8
+  asr_grad_weight: 0.8
+  asr_ema_momentum: 0.0
+  asr_min_value: 0.05
+
+  eval_cam_conflict_fusion: True
+  eval_fg_threshold: 0.5
+  eval_bg_threshold: 0.5
+  eval_cam_threshold: 0.2
+  text_column: text
+
+MODEL:
+  bert_type: microsoft/BiomedVLP-CXR-BERT-specialized
+  vision_type: facebook/convnext-tiny-224
+  project_dim: 768
+
+DATA:
+  train_csv_path: ./datasets/mosmed/prompt/Train.csv
+  train_root_path: ./datasets/mosmed/Train Set
+  test_csv_path: ./datasets/mosmed/prompt/Test.csv
+  test_root_path: ./datasets/mosmed/Test Set
+  cam_prior_path: ./priors/mosmed/tsl/train
+  test_cam_prior_path: ./priors/mosmed/tsl/test
+  sam_prior_path: ./priors/mosmed/mdaa_sam/train
+  test_sam_prior_path: ./priors/mosmed/mdaa_sam/test

@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.idea/
+
+# Local models and generated artifacts
+lib/
+data/
+save_model/
+outputs/
+logs/
+*.ckpt
+*.pt
+*.pth
+*.npy
+*.npz
